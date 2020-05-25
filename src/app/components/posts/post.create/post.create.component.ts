@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostsService } from 'src/app/services/posts.service';
-import { Post } from '../post.modal';
+import { Post } from '@modals/post.modal';
 
 @Component({
   selector: 'app-post-create',

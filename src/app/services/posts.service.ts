@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { Post } from '../components/posts/post.modal'
+import { Post } from '@modals/post.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { Post } from '../components/posts/post.modal'
 export class PostsService {
   private baseUrl = 'http://localhost:4201';
   private reqUrl='/api/posts';
-  public subject: Subject<Post> = new Subject<Post>();
+  public subject:Subject<Post> = new Subject<Post>();
 
   constructor(private http:HttpClient) { }
 

@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 
-// Import the DataService
-import { DataService } from '../services/data.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,11 +7,6 @@ import { DataService } from '../services/data.service';
 })
 export class AppComponent {
   
-  constructor(private dataService: DataService) {
-
-  }
-
-  getUsers(){
-    this.dataService.getUsers();
-  }
+  constructor(){}
+  
 }

@@ -12,7 +12,7 @@ const connection = (closure) => {
     return MongoClient.connect(mongodbUrl, (err, client) => {
         if (err) return console.log(err);
         const db = client.db(mongoCollection);
-        closure(db);
+        closure(db, client);
     });
 };
 
@@ -31,21 +31,20 @@ const sendError = (err, res) => {
 };
 
 //Generic collection
-// const getByCollection = collection => {
-//     connection((db) => {
-//         db.collection(collection)
-//             .find()
-//             .toArray()
-//             .then((data) => {
-//                 response.data = data;
-//                 result = response;
-//             })
-//             .catch((err) => {
-//                 sendError(err, res);
-//             });
-//     });
-//     return result;
-// }
+const getByCollection = collection => {
+    connection((db) => {
+        db.collection(collection)
+            .find()
+            .toArray()
+            .then((data) => {
+                response.data = data;
+                result = response;
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+}
 
 // Get users
 router.get('/users', (req, res) => {
@@ -76,6 +75,47 @@ router.get('/posts', (req, res) => {
             .catch((err) => {
                 sendError(err, res);
             });
+    });
+});
+
+//Get todos
+router.get('/todos', (req, res) => {
+    connection((db) => {
+        db.collection('todos')
+        .find()
+        .toArray()
+        .then((todos) => {
+            response.data = todos;
+            res.json(response);
+        })
+        .catch((err) => {
+            sendError(err, res);
+        });
+    });
+});
+
+//Update todos
+router.put('/todos', (req, res) => {
+    const { id, userId, completed } = req.body;
+    connection((db, client) => {
+        db.collection("todos")
+        .updateOne({ id, userId }, { $set: { completed } }, function(err, res) {
+            if (err) throw err;
+            console.log(`Todo: ${JSON.stringify({ id, userId })} is updated`);
+            client.close();
+        });
+    });
+});
+
+//Delete todo
+router.delete('/todos/:_id', (req, res) => {
+    connection((db, client) => {
+        db.collection("todos")
+        .deleteOne({_id: ObjectID(req.params._id)},  function(err, res) {
+            if (err) throw err;
+            console.log(`Todo: ${req.params._id} is Deleted`);
+            client.close();
+        });
     });
 });
 

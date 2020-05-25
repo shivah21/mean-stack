@@ -14,7 +14,12 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@modals/*": ["modals/*"],
+      "@services/*": ["services/*"],
+      "@components/*": ["components/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
